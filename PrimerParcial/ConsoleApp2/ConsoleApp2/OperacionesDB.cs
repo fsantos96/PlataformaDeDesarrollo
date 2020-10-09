@@ -45,7 +45,7 @@ namespace ConsoleApp2
             var propiedades = elemento.GetType().GetProperties();
             T elementoActual = ctx.Set<T>().Find(id);
 
-            if (elementoActual != null)
+            if (!elementoActual.Equals((T)Activator.CreateInstance(typeof(T))))
             {
                 foreach (var prop in propiedades)
                 {
