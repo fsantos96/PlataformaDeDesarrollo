@@ -38,10 +38,10 @@
     }
 
     @code {
-        private BlazorApp1.Data.Tarea[] listadoTarea;
+        private List<Tarea> listadoTarea;
 
         protected override async Task OnInitializedAsync()
         {
-            listadoTarea = await TareaService.getTareas();
+            listadoTarea = await TareaService.getAll();
         }
     }

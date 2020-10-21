@@ -9,10 +9,10 @@ namespace ConsoleApp2
         static int idUltimoUsuario = 0;
         static void Main(string[] args)
         {
-            //OperacionesDB.insertarDatosIniciales();
-            MostrarTodasLasTareas();
-            EliminacionDeUsuario();
-            SeCambiaElResponsableDeUnaTarea();
+            OperacionesDB.insertarDatosIniciales();
+            //MostrarTodasLasTareas();
+            //EliminacionDeUsuario();
+            //SeCambiaElResponsableDeUnaTarea();
         }
 
         static void MostrarTodasLasTareas()

@@ -8,15 +8,12 @@ namespace BlazorApp1.Data
 {
     public class TareaService
     {
-        public Task<Tarea[]> getTareas()
+        public Task<List<Tarea>> getAll()
         {
-            Tarea[] listaTarea = new Tarea[10];
-            for(var i = 0; i < 10; i++)
-            {
-                listaTarea[i] = new Tarea {Id=i, Estado= false, Estimacion=2, Titulo="Titulo" + i, Vencimiento=DateTime.Now };
-            }
+            var ctx = new TaskDbContext();
+            List<Tarea> listaTareas = OperacionesDB.ObtenerTodo<Tarea>();
 
-            return Task.FromResult(listaTarea);
+            return Task.FromResult(listaTareas);
         }
     }
 }
