@@ -1,47 +1,75 @@
-﻿@page "/listaTarea"
+﻿@page "/tarea/listado"
 
 
 @using BlazorApp1.Data;
+@using Model.Entities
 @inject TareaService TareaService
-    <h3>ListaTarea</h3>
+@inject NavigationManager navigation
+@inject IJSRuntime JsRuntime
+<h3>ListaTarea</h3>
 
 
-    @if (listadoTarea == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
+@if (listadoTarea == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <button class="btn btn-primary" @onclick="()=>EditarTarea(0)">Nuevo</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Estimacion</th>
+                <th>Vencimento</th>
+                <th>Estado</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tarea in listadoTarea)
+            {
                 <tr>
-                    <th>Id</th>
-                    <th>Titulo</th>
-                    <th>Estimacion</th>
-                    <th>Vencimento</th>
-                    <th>Estado</th>
+                    <td>@tarea.Titulo</td>
+                    <td>@tarea.Estimacion</td>
+                    <td>@tarea.Vencimiento</td>
+                    <td>@tarea.Estado</td>
+                    <td><button class="btn btn-primary" @onclick="()=>VerDetalleTarea(tarea.Id)">Ver Detalles</button></td>
+                    <td><button class="btn btn-primary" @onclick="()=>EditarTarea(tarea.Id)">Editar</button></td>
+                    <td><button class="btn btn-danger" @onclick="()=>BorrarTarea(tarea.Id)">Borrar</button></td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var tarea in listadoTarea)
-                {
-                    <tr>
-                        <td>@tarea.Id</td>
-                        <td>@tarea.Titulo</td>
-                        <td>@tarea.Estimacion</td>
-                        <td>@tarea.Vencimiento</td>
-                        <td>@tarea.Estado</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Tarea> listadoTarea;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listadoTarea = await TareaService.GetAll();
     }
 
-    @code {
-        private List<Tarea> listadoTarea;
+    protected void EditarTarea(int id)
+    {
+        navigation.NavigateTo("tarea/editar/" + id);
+    }
 
-        protected override async Task OnInitializedAsync()
+    protected async Task BorrarTarea(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar el usuario?");
+        if (confirmed)
         {
-            listadoTarea = await TareaService.getAll();
+            await TareaService.Delete(id);
+            listadoTarea = await TareaService.GetAll();
         }
     }
+
+    protected void VerDetalleTarea(int id)
+    {
+        navigation.NavigateTo("detalle/listado/" + id);
+    }
+}

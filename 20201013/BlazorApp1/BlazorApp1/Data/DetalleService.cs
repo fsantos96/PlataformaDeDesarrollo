@@ -1,5 +1,4 @@
-﻿using BlazorApp1.Pages;
-using Model.Entities;
+﻿using Model.Entities;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -8,38 +7,36 @@ using System.Threading.Tasks;
 
 namespace BlazorApp1.Data
 {
-    public class TareaService
+    public class DetalleService
     {
-        public Task<List<Tarea>> GetAll()
+        public async Task<List<Detalle>> GetAllByTaskId(int id)
         {
             var remoteService = RestService.For<IRemoteService>("https://localhost:44353/api");
-            return remoteService.GetAllTarea();
+            return await remoteService.GetAllByTaskId(id);
         }
-        public async Task<Tarea> GetById(int id)
+        public async Task<Detalle> GetById(int id)
         {
             var remoteService = RestService.For<IRemoteService>("https://localhost:44353/api");
-            return await remoteService.GetTareaById(id);
-        }
-
-        public async Task<Tarea> Delete(int id)
-        {
-            var remoteService = RestService.For<IRemoteService>("https://localhost:44353/api");
-            return await remoteService.DeleteTarea(id);
+            return await remoteService.GetDetalleById(id);
         }
 
-        public async Task<Tarea> Save(Tarea tarea)
+        public async Task<Detalle> Delete(int id)
         {
             var remoteService = RestService.For<IRemoteService>("https://localhost:44353/api");
-   
-            if (tarea.Id == 0)
+            return await remoteService.DeleteDetalle(id);
+        }
+
+        public async Task<Detalle> Save(Detalle recurso)
+        {
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44353/api");
+            if (recurso.Id == 0)
             {
-                return await remoteService.CrearTarea(tarea);
+                return await remoteService.CrearDetalle(recurso);
             }
             else
             {
-                return await remoteService.UpdateTarea(tarea, tarea.Id);
+                return await remoteService.UpdateDetalle(recurso, recurso.Id);
             }
         }
-
     }
 }

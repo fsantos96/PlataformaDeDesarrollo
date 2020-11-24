@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorApp1.Data
+namespace Model.Entities
 {
     public class Tarea
     {

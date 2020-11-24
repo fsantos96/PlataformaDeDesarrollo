@@ -1,0 +1,61 @@
+﻿@page "/detalle/editar/{tareaId:int}/{id:int}"
+@using BlazorApp1.Data
+@using Model.Entities
+@inject DetalleService DetalleService
+@inject NavigationManager navigation
+<h3>@( Modelo.Id != 0 ? "Editar Detalle" : "Crear Detalle" )</h3>
+
+<EditForm Model="@Modelo" OnValidSubmit="@Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Fecha
+        </label>
+        <div class="col-sm-10">
+            <InputDate @bind-Value="Modelo.Fecha" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Tiempo
+        </label>
+        <div class="col-sm-10">
+            <InputText @bind-Value="Modelo.Tiempo" />
+        </div>
+    </div>
+    <div class="form-group row">
+    </div>
+
+    <button type="submit">Guardar</button>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int TareaId { get; set; }
+    [Parameter]
+    public int Id { get; set; }
+
+    public Detalle Modelo { get; set; } = new Detalle();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            Modelo = await DetalleService.GetById(Id);
+        }
+        else
+        {
+            Modelo = new Detalle();
+            Modelo.TareaId = TareaId;
+        }
+    }
+
+
+    private async void Guardar()
+    {
+        await DetalleService.Save(Modelo);
+        navigation.NavigateTo("detalle/listado/" + TareaId);
+    }
+}

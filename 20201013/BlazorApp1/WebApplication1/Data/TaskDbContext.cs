@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Model.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Model.Entities;
 
-namespace BlazorApp1.Data
+namespace WebApplication1.Data
 {
     public class TaskDbContext : DbContext
     {
@@ -37,6 +38,7 @@ namespace BlazorApp1.Data
             modelBuilder.Entity<Detalle>().Property(p => p.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Detalle>().Property(p => p.Fecha).IsRequired();
             modelBuilder.Entity<Detalle>().Property(p => p.Tiempo).IsRequired();
+            modelBuilder.Entity<Detalle>().Property(p => p.RecursoId).IsRequired(false);
 
         }
 
@@ -44,6 +46,5 @@ namespace BlazorApp1.Data
         public DbSet<Tarea> Tarea { get; set; }
         public DbSet<Recurso> Recurso { get; set; }
         public DbSet<Detalle> Detalle { get; set; }
-
     }
 }

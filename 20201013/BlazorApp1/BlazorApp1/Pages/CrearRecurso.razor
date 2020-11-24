@@ -1,0 +1,71 @@
+﻿@page "/recurso/editar/{id:int}"
+@using BlazorApp1.Data
+@using Model.Entities
+@inject RecursoService RecursoService
+@inject UsuarioService UsuarioService
+@inject NavigationManager navigation
+<h3>@( Modelo.Id != 0 ? "Editar Recurso" : "Crear Recurso" )</h3>
+@if (usuarios == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<EditForm Model="@Modelo" OnValidSubmit="@Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Nombre
+        </label>
+        <div class="col-sm-10">
+            <InputText @bind-Value="Modelo.Nombre" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <InputSelect @bind-Value="UsuarioId">
+            <option value="0">Elija un Usuario</option>
+            @foreach (var usuario in usuarios)
+                {
+                <option value="@usuario.Id">@usuario.User</option>
+                }
+        </InputSelect>
+    </div>
+
+    <button type="submit">Guardar</button>
+</EditForm>    
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    public Recurso Modelo { get; set; } = new Recurso();
+
+    public string UsuarioId { get; set; }
+
+    private List<Usuario> usuarios;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            Modelo = await RecursoService.GetById(Id);
+            UsuarioId = Modelo.UsuarioId.ToString();
+        }
+        else
+        {
+            Modelo = new Recurso();
+        }
+
+        usuarios = await UsuarioService.GetAll();
+    }
+
+
+    private async void Guardar()
+    {
+        Modelo.UsuarioId = int.Parse(UsuarioId);
+        await RecursoService.Save(Modelo);
+        navigation.NavigateTo("recurso/listado");
+    }
+}

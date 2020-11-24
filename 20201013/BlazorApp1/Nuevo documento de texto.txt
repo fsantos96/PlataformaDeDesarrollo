@@ -1,0 +1,31 @@
+ public Task<List<Tarea>> GetAll()
+        {
+            List<Tarea> listaTareas = OperacionesDB.ObtenerTodo<Tarea>();
+
+            return Task.FromResult(listaTareas);
+        }
+        public Task<Tarea> GetById(int id)
+        {
+            Tarea tarea = OperacionesDB.ObtenerPorId<Tarea>(id);
+
+            return Task.FromResult(tarea);
+        }
+
+        public void Delete(int id)
+        {
+            OperacionesDB.Borrar<Tarea>(id);
+        }
+
+        public Task<Tarea> Save(Tarea recurso)
+        {
+            if (recurso.Id == 0)
+            {
+                OperacionesDB.Insertar<Tarea>(recurso);
+            }
+            else
+            {
+                OperacionesDB.Actualizar<Tarea>(recurso, recurso.Id);
+            }
+
+            return Task.FromResult(recurso);
+        }
