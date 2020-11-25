@@ -15,45 +15,51 @@
 else
 {
 
-    <EditForm Model="@Modelo" OnValidSubmit="@Guardar">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div class="form-group row">
-            <label for="lastName" class="col-sm-2 col-form-label">
-                Titulo
-            </label>
-            <div class="col-sm-10">
-                <InputText @bind-Value="Modelo.Titulo" />
-            </div>
+<EditForm Model="@Modelo" OnValidSubmit="@Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Titulo
+        </label>
+        <div class="col-sm-10">
+            <InputText @bind-Value="Modelo.Titulo" />
         </div>
-        <div class="form-group row">
-            <label for="lastName" class="col-sm-2 col-form-label">
-                Vencimiento
-            </label>
-            <div class="col-sm-10">
-                <InputDate @bind-Value="Modelo.Vencimiento" />
-            </div>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Vencimiento
+        </label>
+        <div class="col-sm-10">
+            <InputDate @bind-Value="Modelo.Vencimiento" />
         </div>
-        <div class="form-group row">
-            <label for="lastName" class="col-sm-2 col-form-label">
-                Estimacion
-            </label>
-            <div class="col-sm-10">
-                <InputNumber @bind-Value="Modelo.Estimacion" />
-            </div>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Estimacion
+        </label>
+        <div class="col-sm-10">
+            <InputNumber @bind-Value="Modelo.Estimacion" />
         </div>
-        <div class="form-group row">
-            <InputSelect @bind-Value="RecursoId">
-                <option value="-1">Elija un Usuario</option>
-                @foreach (var recurso in recursos)
+    </div>
+    <div class="form-group row">
+        <InputSelect @bind-Value="RecursoId">
+            <option value="-1">Elija un Usuario</option>
+            @foreach (var recurso in recursos)
                 {
-                    <option value="@recurso.Id">@recurso.Nombre</option>
+                <option value="@recurso.Id">@recurso.Nombre</option>
                 }
-            </InputSelect>
-        </div>
+        </InputSelect>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Estado
+        </label>
+        <InputCheckbox @bind-Value="Modelo.Estado"></InputCheckbox>
+    </div>
 
-        <button type="submit">Guardar</button>
-    </EditForm>
+    <button type="submit">Guardar</button>
+</EditForm>
 }
 @code {
     [Parameter]
