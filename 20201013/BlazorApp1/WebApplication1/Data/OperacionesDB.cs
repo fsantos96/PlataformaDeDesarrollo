@@ -48,24 +48,12 @@ namespace WebApplication1.Entities
             return elemento ?? (T)Activator.CreateInstance(typeof(T));
         }
 
-        public static void Actualizar<T>(T elemento, int id) where T : class
+        public static void Actualizar<T>(T elemento) where T : class
         {
             var ctx = new TaskDbContext();
-            var propiedades = elemento.GetType().GetProperties();
-            T elementoActual = ctx.Set<T>().Find(id);
-
-            if (!elementoActual.Equals((T)Activator.CreateInstance(typeof(T))))
-            {
-                foreach (var prop in propiedades)
-                {
-                    if (prop.Name != "Id")
-                    {
-                        elementoActual.GetType().GetProperty(prop.Name).SetValue(elementoActual, elemento.GetType().GetProperty(prop.Name).GetValue(elemento, null), null);
-                    }
-                }
-
-                ctx.SaveChanges();
-            }
+            ctx.Set<T>().Attach(elemento);
+            ctx.Set<T>().Update(elemento);
+            ctx.SaveChanges();
         }
 
         public static void Borrar<T>(int id) where T : class

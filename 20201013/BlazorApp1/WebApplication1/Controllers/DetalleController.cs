@@ -49,7 +49,7 @@ namespace WebApplication1.Controllers
         [HttpPut]
         public Detalle EditRecurso(Detalle detalle)
         {
-            OperacionesDB.Actualizar<Detalle>(detalle, detalle.Id);
+            OperacionesDB.Actualizar<Detalle>(detalle);
 
             return detalle;
         }

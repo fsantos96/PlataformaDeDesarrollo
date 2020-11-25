@@ -48,7 +48,7 @@ namespace WebApplication1.Controllers
         [HttpPut]
         public Tarea EditUsuario(Tarea tarea)
         {
-            OperacionesDB.Actualizar<Tarea>(tarea, tarea.Id);
+            OperacionesDB.Actualizar<Tarea>(tarea);
 
             return tarea;
         }

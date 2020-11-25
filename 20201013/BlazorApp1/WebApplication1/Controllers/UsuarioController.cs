@@ -49,7 +49,7 @@ namespace WebApplication1.Controllers
         [HttpPut]
         public Usuario EditUsuario(Usuario usuario)
         {
-            OperacionesDB.Actualizar<Usuario>(usuario, usuario.Id);
+            OperacionesDB.Actualizar<Usuario>(usuario);
 
             return usuario;
         }
